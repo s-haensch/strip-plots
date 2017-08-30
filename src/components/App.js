@@ -57,17 +57,46 @@ class App extends React.Component {
           stroke: "black"
         }}
       >
+        <text
+          x={margin.left}
+          y={margin.top}
+          style={{
+            fontFamily: "Verdana, sans-serif",
+            fontWeight: "normal",
+            fontSize: 14,
+            stroke: "none"
+          }}
+        >
+          {dataKey}
+        </text>
+        {this.state.activeStrip && 
+          <text
+            x={this.state.activePosition}
+            y={margin.top + 20}
+            style={{
+              fontFamily: "Verdana, sans-serif",
+              fontWeight: "normal",
+              fontSize: 10,
+              textAnchor: "middle",
+              stroke: "none"
+            }}
+          >
+            {`${this.state.activeStrip}: ${this.state.activeValue}`}
+          </text>
+        }
         <line
           x1={margin.left}
           y1={height - margin.bottom}
           x2={width - margin.right}
           y2={height - margin.bottom} />
 
+        
         <StripSeries
           data={this.state.data}
           dataKey={dataKey}
           scale={scale}
           dimensions={this.props}
+          activeStrip={this.state.activeStrip}
           mouseOverHandler={this.handleMouseOver.bind(this)}
           mouseOutHandler={this.handleMouseOut.bind(this)} />
       </svg>
