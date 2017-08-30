@@ -1,0 +1,23 @@
+{
+  "name": "strip-plots",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "react-scripts": "1.0.12",
+    "@kadira/storybook": "^2.21.0"
+  },
+  "dependencies": {
+    "d3-request": "^1.0.5",
+    "d3-scale": "^1.0.6",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "storybook": "start-storybook -p 9009 -s public",
+    "build-storybook": "build-storybook -s public"
+  }
+}
