@@ -3,13 +3,21 @@ import _ from 'lodash';
 
 
 function stripLine(props, datum, index) {
-  const {scale, dimensions, dataKey, mouseOverHandler, mouseOutHandler} = props;
+  const {
+    scale,
+    dimensions,
+    dataKey,
+    activeStrip,
+    mouseOverHandler,
+    mouseOutHandler
+  } = props;
   const {height, margin} = dimensions;
+
 
   return (
     <line
       style={{
-        strokeOpacity: 0.2,
+        strokeOpacity: datum.city === activeStrip ? 1 : 0.2,
       }}
       onMouseOver={function() {
           mouseOverHandler(
@@ -24,7 +32,7 @@ function stripLine(props, datum, index) {
       x1={scale(datum.ownedHomes)}
       y1={height - margin.bottom - 4}
       x2={scale(datum.ownedHomes)}
-      y2={height - margin.bottom - 24} />
+      y2={height - margin.bottom - (datum.city === activeStrip ? 27 : 24)} />
   );
 }
 
