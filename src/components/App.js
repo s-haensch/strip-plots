@@ -3,6 +3,7 @@ import {scaleLinear} from 'd3-scale';
 import _ from 'lodash';
 import {csv} from 'd3-request';
 import StripSeries from './StripSeries';
+import Axis from './Axis';
 
 class App extends React.Component {
   constructor (props) {
@@ -43,9 +44,9 @@ class App extends React.Component {
   }
 
   render() {
-    const {width, height, margin, dataKey} = this.props;
+    const {width, height, margin, min, max, dataKey} = this.props;
     const scale = scaleLinear()
-      .domain([0, 100])
+      .domain([min, max])
       .range([margin.left, width - margin.right]);
 
     return (
@@ -84,12 +85,11 @@ class App extends React.Component {
             {`${this.state.activeStrip}: ${this.state.activeValue}`}
           </text>
         }
-        <line
-          x1={margin.left}
-          y1={height - margin.bottom}
-          x2={width - margin.right}
-          y2={height - margin.bottom} />
 
+        <Axis
+          dimensions={this.props}
+          scale={scale} />
+        
         
         <StripSeries
           data={this.state.data}
