@@ -3,52 +3,50 @@ import App from '../components/App';
 import { storiesOf } from '@kadira/storybook';
 
 
-storiesOf('Scale', module)
-  .add('owned homes', () => (
+storiesOf('Strip plot', module)
+  .add('All plots', () => (
     <App
       width={800}
-      height={120}
+      plotHeight={120}
       margin={{
         left: 30,
         top: 30,
         right: 30,
         bottom: 40,
       }}
-      min={0}
-      max={100}
       dataPath="./germanCitiesCategories.csv"
-      dataKey="ownedHomes"
-    />
-  ))
-  .add('not religious', () => (
-    <App
-      width={800}
-      height={120}
-      margin={{
-        left: 30,
-        top: 30,
-        right: 30,
-        bottom: 40,
-      }}
-      min={0}
-      max={100}
-      dataPath="./germanCitiesCategories.csv"
-      dataKey="notReligious"
-    />
-  ))
-  .add('self-employed', () => (
-    <App
-      width={800}
-      height={120}
-      margin={{
-        left: 30,
-        top: 30,
-        right: 30,
-        bottom: 40,
-      }}
-      min={0}
-      max={20}
-      dataPath="./germanCitiesCategories.csv"
-      dataKey="selfEmployed"
+      categories={[
+        {
+          key: "notReligious",
+          title: "NON-RELIGIOUS",
+          min: 0,
+          max: 100,
+        },
+        {
+          key: "ownedHomes",
+          title: "HOME OWNERSHIP",
+          min: 0,
+          max: 100,
+        },
+        {
+          key: "selfEmployed",
+          title: "SELF-EMPLOYED",
+          min: 0,
+          max: 20,
+        },
+        {
+          key: "populationChange",
+          title: "POPULATION GROWTH 1990‒2014",
+          min: -50,
+          max: 50,
+        },
+        {
+          key: "populationDensity",
+          title: "POPULATION DENSITY",
+          min: 0,
+          max: 100,
+        }
+      ]}
+      highlight="Berlin"
     />
   ));
