@@ -15,7 +15,7 @@ function stripLine(props, datum, index) {
 
 
   return (
-    <g>
+    <g key={`g-${index}`}>
       <line
         style={
           datum.city === activeStrip ?
@@ -30,7 +30,6 @@ function stripLine(props, datum, index) {
             strokeWidth: 1,
           }
         }
-        key={index}
         x1={scale(datum[dataKey])}
         y1={height - margin.bottom - 4}
         x2={scale(datum[dataKey])}
