@@ -27,6 +27,13 @@ class App extends React.Component {
     })
   }
 
+  decamelize(input, tie) {
+    return _.flow(
+      (str) => str.replace(/([A-Z])/g, `${tie}$1`),
+      (str) => str.replace(/(^.)/, (firstChar) => firstChar.toUpperCase())
+    )(input);
+  }
+
   handleMouseOver(position, city, value) {
     this.setState({
       activeStrip: city,
@@ -68,7 +75,7 @@ class App extends React.Component {
             stroke: "none"
           }}
         >
-          {dataKey}
+          {this.decamelize(dataKey, "-")}
         </text>
         {this.state.activeStrip && 
           <text
