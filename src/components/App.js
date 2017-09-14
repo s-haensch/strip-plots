@@ -1,18 +1,14 @@
 import React from 'react';
-import {scaleLinear} from 'd3-scale';
+// import {scaleLinear} from 'd3-scale';
 import _ from 'lodash';
 import {csv} from 'd3-request';
-import StripSeries from './StripSeries';
-import Axis from './Axis';
+import StripPlot from './StripPlot';
 
 class App extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
       data: null,
-      activeStrip: null,
-      activePosition: null,
-      activeValue: null,
     };
   }
 
@@ -27,85 +23,43 @@ class App extends React.Component {
     })
   }
 
-  decamelize(input, tie) {
-    return _.flow(
-      (str) => str.replace(/([A-Z])/g, `${tie}$1`),
-      (str) => str.replace(/(^.)/, (firstChar) => firstChar.toUpperCase())
-    )(input);
-  }
+  createStripPlot(props, category, index) {
+    const {data, highlight, width, plotHeight, margin} = props,
+      {key, title, min, max} = category;
 
-  handleMouseOver(position, city, value) {
-    this.setState({
-      activeStrip: city,
-      activePosition: position,
-      activeValue: value,
-    })
-  }
-
-  handleMouseOut() {
-    this.setState({
-      activeStrip: null,
-      activePosition: null,
-      activeValue: null,
-    })
+    return (<StripPlot
+      key={index}
+      data={data}
+      dataKey={key}
+      highlight={highlight}
+      title={title}
+      min={min}
+      max={max}
+      yOffset={index * plotHeight}
+      dimensions={{width, plotHeight, margin}}
+    />);
   }
 
   render() {
-    const {width, height, margin, min, max, dataKey} = this.props;
-    const scale = scaleLinear()
-      .domain([min, max])
-      .range([margin.left, width - margin.right]);
+    const {width, plotHeight, margin, categories, highlight} = this.props,
+      plot = _.curry(this.createStripPlot)({
+        data: this.state.data,
+        width: width,
+        plotHeight: plotHeight,
+        margin: margin,
+        highlight: highlight,
+      });
 
     return (
       <svg
         width={width}
-        height={height}
+        height={plotHeight * categories.length}
         style={{
           backgroundColor: "#E3C44D",
           stroke: "black"
         }}
       >
-        <text
-          x={margin.left}
-          y={margin.top}
-          style={{
-            fontFamily: "Verdana, sans-serif",
-            fontWeight: "normal",
-            fontSize: 14,
-            stroke: "none"
-          }}
-        >
-          {this.decamelize(dataKey, "-")}
-        </text>
-        {this.state.activeStrip && 
-          <text
-            x={this.state.activePosition}
-            y={margin.top + 20}
-            style={{
-              fontFamily: "Verdana, sans-serif",
-              fontWeight: "normal",
-              fontSize: 10,
-              textAnchor: "middle",
-              stroke: "none"
-            }}
-          >
-            {`${this.state.activeStrip}: ${this.state.activeValue}`}
-          </text>
-        }
-
-        <Axis
-          dimensions={this.props}
-          scale={scale} />
-        
-        
-        <StripSeries
-          data={this.state.data}
-          dataKey={dataKey}
-          scale={scale}
-          dimensions={this.props}
-          activeStrip={this.state.activeStrip}
-          mouseOverHandler={this.handleMouseOver.bind(this)}
-          mouseOutHandler={this.handleMouseOut.bind(this)} />
+        {_.map(categories, plot)}
       </svg>
     );
   }
