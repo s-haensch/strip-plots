@@ -1,24 +1,22 @@
 import React from 'react';
 import _ from 'lodash';
 
-
 function stripLine(props, datum, index) {
   const {
     scale,
     dimensions,
     dataKey,
-    activeStrip,
+    activeCity,
     mouseOverHandler,
     mouseOutHandler
   } = props;
   const {plotHeight, margin} = dimensions;
 
-
   return (
     <g key={`g-${index}`}>
       <line
         style={
-          datum.city === activeStrip ?
+          datum.city === activeCity ?
           {
             strokeOpacity: 1,
             stroke: "white",
@@ -33,7 +31,7 @@ function stripLine(props, datum, index) {
         x1={scale(datum[dataKey])}
         y1={plotHeight - margin.bottom - 4}
         x2={scale(datum[dataKey])}
-        y2={plotHeight - margin.bottom - (datum.city === activeStrip ? 27 : 24)} />
+        y2={plotHeight - margin.bottom - (datum.city === activeCity ? 27 : 24)} />
       <rect
         x={scale(datum[dataKey]) - 3}
         y={plotHeight - margin.bottom - 28}
@@ -47,8 +45,7 @@ function stripLine(props, datum, index) {
         style={{
           fill: "rgba(0, 0, 0, 0)",
           stroke: "none",
-        }} />
-      
+        }} />  
     </g>
   );
 }
