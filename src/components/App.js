@@ -9,6 +9,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       data: null,
+      activeCity: props.highlight || "Chemnitz"
     };
   }
 
@@ -23,8 +24,21 @@ class App extends React.Component {
     })
   }
 
+  handleCityChange(nextCity) {
+    this.setState({
+      activeCity: nextCity
+    });
+  }
+
   createStripPlot(props, category, index) {
-    const {data, highlight, width, plotHeight, margin} = props,
+    const {
+        data,
+        highlight,
+        width,
+        plotHeight,
+        margin,
+        handleCityChange
+      } = props,
       {key, title, min, max} = category;
 
     return (<StripPlot
@@ -37,17 +51,19 @@ class App extends React.Component {
       max={max}
       yOffset={index * plotHeight}
       dimensions={{width, plotHeight, margin}}
+      onCityChange={handleCityChange}
     />);
   }
 
   render() {
-    const {width, plotHeight, margin, categories, highlight} = this.props,
+    const {width, plotHeight, margin, categories} = this.props,
       plot = _.curry(this.createStripPlot)({
         data: this.state.data,
         width: width,
         plotHeight: plotHeight,
         margin: margin,
-        highlight: highlight,
+        highlight: this.state.activeCity,
+        handleCityChange: this.handleCityChange
       });
 
     return (
