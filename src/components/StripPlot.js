@@ -7,37 +7,59 @@ import Axis from './Axis';
 
 class StripPlot extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       activeStrip: null,
       activePosition: null,
       activeValue: null,
     };
+
+    const {min, max, dimensions} = props,
+      {width, margin} = dimensions;
+    this.scale = scaleLinear()
+      .domain([min, max])
+      .range([margin.left, width - margin.right]);
   }
 
-  handleMouseOver(position, city, value) {
+  componentWillReceiveProps(nextProps){
+    if (nextProps.data !== null) {
+      this.setActiveByCityAndData(
+        this.props.highlight,
+        nextProps.data);
+    }
+  }
+
+  setActiveByCityAndData(city, data) {
+    const {dataKey} = this.props;
+    const datum = this.datumByCity(city, data);
+
     this.setState({
       activeStrip: city,
-      activePosition: position,
-      activeValue: value,
-    })
+      activePosition: this.scale(datum[dataKey]),
+      activeValue: `${parseFloat(datum[dataKey]).toFixed(2)}%`,
+    });
+  }
+  
+  setActiveByCity(city) {
+    this.setActiveByCityAndData(city, this.props.data);
   }
 
-  handleMouseOut() {
+  resetActiveCity() {
     this.setState({
       activeStrip: null,
       activePosition: null,
       activeValue: null,
-    })
+    });
+  }
+
+  datumByCity(city, data) {
+    return _.find(data, (o) => o.city === city);
   }
 
   render() {
-    const { dimensions, yOffset, data, dataKey, title, min, max } = this.props,
-    {width, plotHeight, margin} = dimensions,
-    scale = scaleLinear()
-    .domain([min, max])
-    .range([margin.left, width - margin.right]);
-    
+    const { dimensions, yOffset, data, dataKey, title } = this.props,
+    {margin} = dimensions;
+
     return (
       <g
         transform={`translate(0,${yOffset})`}
@@ -73,17 +95,17 @@ class StripPlot extends React.Component {
 
         <Axis
           dimensions={dimensions}
-          scale={scale} />
+          scale={this.scale} />
 
 
         <StripSeries
           data={data}
           dataKey={dataKey}
-          scale={scale}
+          scale={this.scale}
           dimensions={dimensions}
           activeStrip={this.state.activeStrip}
-          mouseOverHandler={this.handleMouseOver.bind(this)}
-          mouseOutHandler={this.handleMouseOut.bind(this)} />
+          mouseOverHandler={this.setActiveByCity.bind(this)}
+          mouseOutHandler={this.resetActiveCity.bind(this)} />
 
       </g>
     );
