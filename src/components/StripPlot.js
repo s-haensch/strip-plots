@@ -17,7 +17,8 @@ function StripPlot(props) {
     title,
     min,
     max,
-    highlight, 
+    highlight,
+    match, 
     mouseOverHandler,
     mouseOutHandler
   } = props,
@@ -28,8 +29,8 @@ function StripPlot(props) {
     .domain([min, max])
     .range([margin.left, width - margin.right]),
 
-  datum = datumByCity(highlight, data);
-
+  highlightDatum = datumByCity(highlight, data),
+  matchDatum = datumByCity(match, data);
 
   return (
     data &&
@@ -51,17 +52,36 @@ function StripPlot(props) {
       </text>
       {highlight &&
         <text
-          x={scale(datum[dataKey])}
+          x={scale(highlightDatum[dataKey])}
           y={margin.top + 20}
           style={{
             fontFamily: "Calibri, Verdana, sans-serif",
             fontWeight: "normal",
             fontSize: 13,
-            textAnchor: "middle",
+            textAnchor: highlightDatum[dataKey] > matchDatum[dataKey] ?
+              "start" :
+              "end",
             stroke: "none"
           }}
         >
-          {`${highlight}: ${parseFloat(datum[dataKey]).toFixed(2)}`}
+          {`${highlight}: ${parseFloat(highlightDatum[dataKey]).toFixed(2)}`}
+        </text>
+      }
+      {match &&
+        <text
+          x={scale(matchDatum[dataKey])}
+          y={margin.top + 20}
+          style={{
+            fontFamily: "Calibri, Verdana, sans-serif",
+            fontWeight: "normal",
+            fontSize: 13,
+            textAnchor: highlightDatum[dataKey] > matchDatum[dataKey] ?
+              "end" :
+              "start",
+            stroke: "none"
+          }}
+        >
+          {`${match}: ${parseFloat(matchDatum[dataKey]).toFixed(2)}`}
         </text>
       }
 
@@ -75,6 +95,7 @@ function StripPlot(props) {
         scale={scale}
         dimensions={dimensions}
         activeCity={highlight}
+        matchCity={match}
         mouseOverHandler={mouseOverHandler}
         mouseOutHandler={mouseOutHandler} />
 

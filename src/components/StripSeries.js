@@ -7,6 +7,7 @@ function stripLine(props, datum, index) {
     dimensions,
     dataKey,
     activeCity,
+    matchCity,
     mouseOverHandler,
     mouseOutHandler
   } = props;
@@ -22,6 +23,12 @@ function stripLine(props, datum, index) {
             stroke: "white",
             strokeWidth: 3,
           } :
+          datum.city === matchCity ?
+          {
+            strokeOpacity: 1,
+            stroke: "#0FAD0F",
+            strokeWidth: 3,
+          } :
           {
             strokeOpacity: 0.25,
             stroke: "black",
@@ -31,7 +38,9 @@ function stripLine(props, datum, index) {
         x1={scale(datum[dataKey])}
         y1={plotHeight - margin.bottom - 4}
         x2={scale(datum[dataKey])}
-        y2={plotHeight - margin.bottom - (datum.city === activeCity ? 27 : 24)} />
+        y2={plotHeight - margin.bottom - (
+          (datum.city === activeCity ||
+            datum.city === matchCity) ? 27 : 24)} />
       <rect
         x={scale(datum[dataKey]) - 3}
         y={plotHeight - margin.bottom - 28}
