@@ -47,6 +47,6 @@ storiesOf('Strip plot', module)
           max: 100,
         }
       ]}
-      highlight="Berlin"
+      highlight="Chemnitz"
     />
   ));
