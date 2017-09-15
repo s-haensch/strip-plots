@@ -39,12 +39,8 @@ function stripLine(props, datum, index) {
         y={plotHeight - margin.bottom - 28}
         width={5}
         height={24}
-        onMouseOver={function() {
-            mouseOverHandler(
-              scale(datum[dataKey]),
-              datum.city,
-              `${parseFloat(datum[dataKey]).toFixed(2)}%`
-            )
+        onMouseOver={() => {
+            mouseOverHandler(datum.city);
           }
         }
         onMouseOut={mouseOutHandler}
