@@ -24,9 +24,15 @@ class App extends React.Component {
     })
   }
 
-  handleCityChange(nextCity) {
+  setActiveByCity(city) {
     this.setState({
-      activeCity: nextCity
+      activeCity: city,
+    });
+  }
+
+  resetActiveCity() {
+    this.setState({
+      activeCity: null,
     });
   }
 
@@ -37,22 +43,26 @@ class App extends React.Component {
         width,
         plotHeight,
         margin,
-        handleCityChange
+        mouseOverHandler,
+        mouseOutHandler
       } = props,
       {key, title, min, max} = category;
 
-    return (<StripPlot
-      key={index}
-      data={data}
-      dataKey={key}
-      highlight={highlight}
-      title={title}
-      min={min}
-      max={max}
-      yOffset={index * plotHeight}
-      dimensions={{width, plotHeight, margin}}
-      onCityChange={handleCityChange}
-    />);
+    return (
+      <StripPlot
+        key={index}
+        data={data}
+        dataKey={key}
+        highlight={highlight}
+        title={title}
+        min={min}
+        max={max}
+        yOffset={index * plotHeight}
+        dimensions={{width, plotHeight, margin}}
+        mouseOverHandler={mouseOverHandler}
+        mouseOutHandler={mouseOutHandler}
+      />
+    );
   }
 
   render() {
@@ -63,7 +73,8 @@ class App extends React.Component {
         plotHeight: plotHeight,
         margin: margin,
         highlight: this.state.activeCity,
-        handleCityChange: this.handleCityChange
+        mouseOverHandler: this.setActiveByCity.bind(this),
+        mouseOutHandler: this.resetActiveCity.bind(this)
       });
 
     return (
