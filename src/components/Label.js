@@ -18,7 +18,15 @@ class Label extends React.Component {
 
 
   render() {
-    const {isLeft, scale, datum, dataKey, margin} = this.props,
+    const
+      {
+        isLeft,
+        scale,
+        datum,
+        dataKey,
+        margin,
+        suffix,
+      } = this.props,
       position = scale(datum[dataKey]) + (isLeft ? -6 : 6);
 
     return(
@@ -58,7 +66,8 @@ class Label extends React.Component {
             stroke: "none",
           }}
         >
-          {`${parseFloat(datum[dataKey]).toFixed(2)}`}
+          {`${parseFloat(datum[dataKey]).toFixed(2)}
+            ${suffix ? suffix : ""}`}
         </text>
       </g>
     );

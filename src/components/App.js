@@ -76,7 +76,16 @@ class App extends React.Component {
         mouseOverHandler,
         mouseOutHandler
       } = props,
-      {key, title, min, max} = category;
+      {
+        key,
+        title,
+        min,
+        max,
+        suffix,
+        midTick,
+        midTickLabel,
+        subhead,
+      } = category;
 
     return (
       <StripPlot
@@ -88,6 +97,10 @@ class App extends React.Component {
         title={title}
         min={min}
         max={max}
+        suffix={suffix}
+        midTick={midTick}
+        midTickLabel={midTickLabel}
+        subhead={subhead}
         yOffset={index * plotHeight}
         dimensions={{width, plotHeight, margin}}
         mouseOverHandler={mouseOverHandler}

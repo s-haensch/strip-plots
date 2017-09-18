@@ -18,6 +18,10 @@ function StripPlot(props) {
     title,
     min,
     max,
+    suffix,
+    midTick,
+    midTickLabel,
+    subhead,
     highlight,
     match, 
     mouseOverHandler,
@@ -49,12 +53,25 @@ function StripPlot(props) {
           fill: "#222"
         }}
       >
-        {title}
+        <tspan>{title}</tspan>
+        {
+          subhead &&
+          <tspan
+            dx={10}
+            style={{
+              fontWeight: "normal",
+              fontSize: 14,
+            }}
+          >{subhead}</tspan>
+        }
       </text>
       
       <Axis
         dimensions={dimensions}
-        scale={scale} />
+        scale={scale}
+        suffix={suffix}
+        midTick={midTick}
+        midTickLabel={midTickLabel} />
 
       <StripSeries
         data={data}
@@ -65,24 +82,25 @@ function StripPlot(props) {
         matchCity={match}
         mouseOverHandler={mouseOverHandler}
         mouseOutHandler={mouseOutHandler} />
-
-      {highlight &&
+      {
+        highlight &&
         <Label
           isLeft={highlightDatum[dataKey] < matchDatum[dataKey]}
           scale={scale}
           datum={highlightDatum}
           dataKey={dataKey}
           margin={margin}
-        />
+          suffix={suffix} />
       }
-      {match &&
+      {
+        match &&
         <Label
           isLeft={matchDatum[dataKey] < highlightDatum[dataKey]}
           scale={scale}
           datum={matchDatum}
           dataKey={dataKey}
           margin={margin}
-        />
+          suffix={suffix} />
       }
     </g>
   );
