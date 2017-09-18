@@ -1,47 +1,68 @@
 import React from 'react';
 
 
-function Label (props) {
-  const {isLeft, scale, datum, dataKey, margin} = props,
-    position = scale(datum[dataKey]) + (isLeft ? -6 : 6);
+class Label extends React.Component {
+  constructor (props) {
+    super(props);
+    this.state = {
+      textWidth: 0,
+    }
+  }
+  
+  componentDidMount() {
+    const bbox = this.refs.number.getBBox();
+    this.setState({
+      textWidth: bbox.width,
+    })
+  }
 
-  return(
-    <g
-      transform={`translate(${position},0)`}
-    >
-      <rect
-        x={0}
-      />
 
-      <text
-        y={margin.top + 20}
-        style={{
-          fontFamily: "Calibri, Verdana, sans-serif",
-          fontWeight: "normal",
-          fontSize: 13,
-          textAnchor: isLeft ? "end" : "start",
-          stroke: "none",
-        }}
+  render() {
+    const {isLeft, scale, datum, dataKey, margin} = this.props,
+      position = scale(datum[dataKey]) + (isLeft ? -6 : 6);
+
+    return(
+      <g
+        transform={`translate(${position},0)`}
       >
-        <tspan
-          x={0}
+        <rect
+          x={isLeft ? (-this.state.textWidth) - 2 : -2}
+          y={margin.top + 22}
+          width={this.state.textWidth + 6}
+          height={16}
+          fill="#E3C44D"
+          stroke="none"
+        />
+        <text
+          y={margin.top + 20}
           style={{
-            fontSize: 13,
-            letterSpacing: 0.7,
+            fontFamily: "Calibri, Verdana, sans-serif",
             fontWeight: "bold",
+            fontSize: 12,
+            textAnchor: isLeft ? "end" : "start",
+            stroke: "none",
           }}
         >
           {`${datum.city}:`}
-        </tspan>
-        <tspan
+        </text>
+        <text
+          ref="number"
           x={0}
-          dy="1.2em"
+          y={margin.top + 10}
+          dy="1.8em"
+          style={{
+            fontFamily: "Calibri, Verdana, sans-serif",
+            fontWeight: "normal",
+            fontSize: 13,
+            textAnchor: isLeft ? "end" : "start",
+            stroke: "none",
+          }}
         >
           {`${parseFloat(datum[dataKey]).toFixed(2)}`}
-        </tspan>
-      </text>
-    </g>
-  );
+        </text>
+      </g>
+    );
+  }
 };
 
 export default Label;
