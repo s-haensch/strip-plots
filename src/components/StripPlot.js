@@ -3,6 +3,7 @@ import { scaleLinear } from 'd3-scale';
 import _ from 'lodash';
 import StripSeries from './StripSeries';
 import Axis from './Axis';
+import Label from './Label';
 
 const datumByCity = (city, data) => {
   return _.find(data, (o) => o.city === city);
@@ -51,38 +52,22 @@ function StripPlot(props) {
         {title}
       </text>
       {highlight &&
-        <text
-          x={scale(highlightDatum[dataKey])}
-          y={margin.top + 20}
-          style={{
-            fontFamily: "Calibri, Verdana, sans-serif",
-            fontWeight: "normal",
-            fontSize: 13,
-            textAnchor: highlightDatum[dataKey] > matchDatum[dataKey] ?
-              "start" :
-              "end",
-            stroke: "none"
-          }}
-        >
-          {`${highlight}: ${parseFloat(highlightDatum[dataKey]).toFixed(2)}`}
-        </text>
+        <Label
+          isLeft={highlightDatum[dataKey] < matchDatum[dataKey]}
+          scale={scale}
+          datum={highlightDatum}
+          dataKey={dataKey}
+          margin={margin}
+        />
       }
       {match &&
-        <text
-          x={scale(matchDatum[dataKey])}
-          y={margin.top + 20}
-          style={{
-            fontFamily: "Calibri, Verdana, sans-serif",
-            fontWeight: "normal",
-            fontSize: 13,
-            textAnchor: highlightDatum[dataKey] > matchDatum[dataKey] ?
-              "end" :
-              "start",
-            stroke: "none"
-          }}
-        >
-          {`${match}: ${parseFloat(matchDatum[dataKey]).toFixed(2)}`}
-        </text>
+        <Label
+          isLeft={matchDatum[dataKey] < highlightDatum[dataKey]}
+          scale={scale}
+          datum={matchDatum}
+          dataKey={dataKey}
+          margin={margin}
+        />
       }
 
       <Axis
