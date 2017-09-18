@@ -51,6 +51,21 @@ function StripPlot(props) {
       >
         {title}
       </text>
+      
+      <Axis
+        dimensions={dimensions}
+        scale={scale} />
+
+      <StripSeries
+        data={data}
+        dataKey={dataKey}
+        scale={scale}
+        dimensions={dimensions}
+        activeCity={highlight}
+        matchCity={match}
+        mouseOverHandler={mouseOverHandler}
+        mouseOutHandler={mouseOutHandler} />
+
       {highlight &&
         <Label
           isLeft={highlightDatum[dataKey] < matchDatum[dataKey]}
@@ -69,21 +84,6 @@ function StripPlot(props) {
           margin={margin}
         />
       }
-
-      <Axis
-        dimensions={dimensions}
-        scale={scale} />
-
-      <StripSeries
-        data={data}
-        dataKey={dataKey}
-        scale={scale}
-        dimensions={dimensions}
-        activeCity={highlight}
-        matchCity={match}
-        mouseOverHandler={mouseOverHandler}
-        mouseOutHandler={mouseOutHandler} />
-
     </g>
   );
 }
