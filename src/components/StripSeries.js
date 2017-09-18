@@ -40,7 +40,7 @@ function stripLine(props, datum, index) {
         x2={scale(datum[dataKey])}
         y2={plotHeight - margin.bottom - (
           (datum.city === activeCity ||
-            datum.city === matchCity) ? 27 : 24)} />
+            datum.city === matchCity) ? 38 : 24)} />
       <rect
         x={scale(datum[dataKey]) - 3}
         y={plotHeight - margin.bottom - 28}
