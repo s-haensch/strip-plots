@@ -3,7 +3,7 @@ import _ from 'lodash';
 import {csv} from 'd3-request';
 import StripPlot from './StripPlot';
 import * as util from './Util';
-
+import { scaleLinear } from 'd3-scale';
 
 class App extends React.Component {
   constructor (props) {
@@ -17,7 +17,7 @@ class App extends React.Component {
 
   componentWillMount() {
     csv(
-      "./germanCitiesCategories.csv",
+      "./germanCitiesCategories.1.csv",
       (row) => ({
           city: row.city,
           notReligious: +row.notReligious,
@@ -91,10 +91,7 @@ class App extends React.Component {
         title,
         min,
         max,
-        suffix,
-        midTick,
-        midTickLabel,
-        subhead,
+        options
       } = category;
 
     return (
@@ -107,10 +104,7 @@ class App extends React.Component {
         title={title}
         min={min}
         max={max}
-        suffix={suffix}
-        midTick={midTick}
-        midTickLabel={midTickLabel}
-        subhead={subhead}
+        options={options}
         yOffset={index * plotHeight}
         dimensions={{width, plotHeight, margin}}
         mouseOverHandler={mouseOverHandler}

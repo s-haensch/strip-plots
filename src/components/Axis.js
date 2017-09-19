@@ -3,18 +3,10 @@ import React from 'react';
 
 function Axis(props) {
   const
-    {
-      dimensions,
-      scale,
-      suffix,
-      midTick,
-      midTickLabel,
-    } = props,
-    {
-      margin,
-      width,
-      plotHeight
-    } = dimensions,
+    { dimensions, scale, options, } = props,
+    { margin, width, plotHeight } = dimensions,
+    { suffix, midTick, midTickLabel, } = options,
+
     style={
       fontFamily: "Verdana, sans-serif",
       fontWeight: "normal",

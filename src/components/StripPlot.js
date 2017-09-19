@@ -18,10 +18,7 @@ function StripPlot(props) {
     title,
     min,
     max,
-    suffix,
-    midTick,
-    midTickLabel,
-    subhead,
+    options,
     highlight,
     match, 
     mouseOverHandler,
@@ -29,6 +26,7 @@ function StripPlot(props) {
   } = props,
 
   { margin, width } = dimensions,
+  { subhead } = options,
   
   scale = scaleLinear()
     .domain([min, max])
@@ -69,9 +67,7 @@ function StripPlot(props) {
       <Axis
         dimensions={dimensions}
         scale={scale}
-        suffix={suffix}
-        midTick={midTick}
-        midTickLabel={midTickLabel} />
+        options={options} />
 
       <StripSeries
         data={data}
@@ -90,7 +86,7 @@ function StripPlot(props) {
           datum={highlightDatum}
           dataKey={dataKey}
           margin={margin}
-          suffix={suffix} />
+          options={options} />
       }
       {
         match &&
@@ -100,7 +96,7 @@ function StripPlot(props) {
           datum={matchDatum}
           dataKey={dataKey}
           margin={margin}
-          suffix={suffix} />
+          options={options} />
       }
     </g>
   );

@@ -25,8 +25,9 @@ class Label extends React.Component {
         datum,
         dataKey,
         margin,
-        suffix,
+        options,
       } = this.props,
+      { suffix, format } = options,
       position = scale(datum[dataKey]) + (isLeft ? -6 : 6);
 
     return(
@@ -66,7 +67,7 @@ class Label extends React.Component {
             stroke: "none",
           }}
         >
-          {`${parseFloat(datum[dataKey]).toFixed(2)}
+          {`${format ? format(datum, dataKey) : datum[dataKey]}
             ${suffix ? suffix : ""}`}
         </text>
       </g>
