@@ -33,20 +33,52 @@ const dataSample = [
     populationDensity: 19.26866652,
     selfEmployed: 9.727021424,
   },
+  {
+    city: "Magdeburg",
+    notReligious: 83.00122144,
+    ownedHomes: 15.98440546,
+    populationChange: 9.617572416,
+    populationDensity: 18.27738490,
+    selfEmployed: 23.47273922,
+  },
+  {
+    city: "Chemnitz",
+    notReligious: 82.17314256,
+    ownedHomes: 14.50815845,
+    populationChange: 9.40848506,
+    populationDensity: 18.33899740,
+    selfEmployed: 22.44361725,
+  },
+  {
+    city: "Bochum",
+    notReligious: 24.98980501,
+    ownedHomes: 28.53462207,
+    populationChange: 9.663428175,
+    populationDensity: 8.70313810,
+    selfEmployed: 52.61659733,
+  }
 ];
 
 
 describe('util', () => {
   describe('createScale', () => {
     it('maps min max values of data key', () => {
-      const minMaxScale = util.createScale(
+      const notRelScale = util.createScale(
         dataSample, "notReligious", [0,1]);
 
-      expect(minMaxScale.domain()[0])
+      expect(notRelScale.domain()[0])
         .toEqual(16.01720865) // smallest 'notReligious' value
-      expect(minMaxScale.domain()[1])
-        .toEqual(62.56279324) // biggest 'notReligious' value
+      expect(notRelScale.domain()[1])
+        .toEqual(83.00122144) // highest 'notReligious' value
     });
+
+    // with negative scales
+    const popChngScale = util.createScale(
+      dataSample, "populationChange", [0,1]);
+    expect(popChngScale.domain()[0])
+      .toEqual(-14.86241885) // smallest 'populationChange' value
+    expect(popChngScale.domain()[1])
+      .toEqual(13.13428110)  // highest 'populationChange' value
   });
 
   describe('createScales', () => {
@@ -57,39 +89,39 @@ describe('util', () => {
       expect(minMaxScales["notReligious"].domain()[0])
         .toEqual(16.01720865) // smallest 'notReligious' value
       expect(minMaxScales["ownedHomes"].domain()[0])
-        .toEqual(14.77972396) // smallest 'ownedHomes' value
+        .toEqual(14.50815845) // smallest 'ownedHomes' value
     });
   });
 
   describe('getCityProps', () => {
     it('applies createScale function to multiple data keys', () => {
       const cityProps = util.getCityProps(dataSample, ["notReligious", "ownedHomes"]),
-        berlinNotRel = cityProps["Berlin"]["notReligious"],
+        magdeburgNotRel = cityProps["Magdeburg"]["notReligious"],
         hamburgNotRel = cityProps["Hamburg"]["notReligious"],
         trierNotRel = cityProps["Trier"]["notReligious"];
 
-      // Berlin has highest "notReligious" value
-      expect(berlinNotRel).toEqual(1)
+      // Magdeburg has highest "notReligious" value
+      expect(magdeburgNotRel).toEqual(1)
       
       // Trier has lowest "notReligious" value
       expect(trierNotRel).toEqual(0)
       
       // Hamburgs "notReligious" value is somewhere between Berlin's and Trier's
-      expect(berlinNotRel > hamburgNotRel > trierNotRel)
+      expect(magdeburgNotRel > hamburgNotRel > trierNotRel)
         .toEqual(true);
 
       /*
         mapping goes like:
-        var length = highest - lowest; // 62.56 - 16.01 = ​​​​​46.55
+        var length = highest - lowest; // 83.00 - 16.01 = ​​​​​66.99
         var diff = mapped - lowest;    // 48.85 - 16.01 = ​​​​​32.84
 
-        var value = diff / length      // 32.84 / 46.55 = ~0.705
+        var value = diff / length      // 32.84 / 66.99 = ~0.49
       */
       expect(hamburgNotRel).toEqual(
         ( dataSample[1]["notReligious"]
           - dataSample[3]["notReligious"])
         /
-        ( dataSample[0]["notReligious"]
+        ( dataSample[4]["notReligious"]
           - dataSample[3]["notReligious"])
       );
     });
