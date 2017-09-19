@@ -23,7 +23,7 @@ export const createScales = (data, keys, range) => {
   _.map(keys, (key) => {
     scales[key] = createScale(data, key, range);
   });
-
+  
   return scales;
 };
 
