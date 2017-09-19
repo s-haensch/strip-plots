@@ -56,8 +56,7 @@ export const getCityProps = (data, categories) => {
 }
 
 /*
-  applies the createScale function to a series of column keys
-  of a dataset
+  returns the distance between two cities
 */
 export const getCityMatchValue = (cityProps, otherCityProps, keys) => {
   let sum = 0;
@@ -70,7 +69,17 @@ export const getCityMatchValue = (cityProps, otherCityProps, keys) => {
 };
 
 
-
+/*
+  returns a sorted list of city match values like:
+  [
+    {
+      city: "Berlin",
+      matchCity: "Bremen",
+      value: 0.584749293
+    },
+    ...
+  ]  
+*/
 export const getBestMatches = (data, compareCity, categories, numberOfMatches) => {
   
   const cityProps = getCityProps(data, categories);
