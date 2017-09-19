@@ -2,6 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import {csv} from 'd3-request';
 import StripPlot from './StripPlot';
+import Legend from './Legend';
 import * as util from './Util';
 import { scaleLinear } from 'd3-scale';
 
@@ -126,20 +127,25 @@ class App extends React.Component {
         mouseOutHandler: this.resetActiveCity.bind(this)
       });
 
+    
     return (
       <svg
         width={width}
         height={
           (plotHeight * categories.length)
           + margin.bottom
-          + 90
+          + 40
         }
         style={{
           backgroundColor: "#E3C44D",
           stroke: "black"
         }}
       >
-        <g transform="translate(0, 80)">
+        <Legend
+          x={50}
+          y={30}
+        />
+        <g transform="translate(0, 30)">
           {_.map(categories, plot)}
         </g>
       </svg>
