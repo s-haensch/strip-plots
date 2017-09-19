@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 function Axis(props) {
   const
     { dimensions, scale, options, } = props,
