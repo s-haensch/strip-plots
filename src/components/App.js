@@ -17,7 +17,7 @@ class App extends React.Component {
 
   componentWillMount() {
     csv(
-      "./germanCitiesCategories.1.csv",
+      this.props.dataPath,
       (row) => ({
           city: row.city,
           notReligious: +row.notReligious,
@@ -129,13 +129,19 @@ class App extends React.Component {
     return (
       <svg
         width={width}
-        height={plotHeight * categories.length}
+        height={
+          (plotHeight * categories.length)
+          + margin.bottom
+          + 90
+        }
         style={{
           backgroundColor: "#E3C44D",
           stroke: "black"
         }}
       >
-        {_.map(categories, plot)}
+        <g transform="translate(0, 80)">
+          {_.map(categories, plot)}
+        </g>
       </svg>
     );
   }
