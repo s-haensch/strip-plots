@@ -16,21 +16,32 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    csv("./germanCitiesCategories.csv", (error, data) => {
-      if (error) {
-        console.log("error loading data file");
+    csv(
+      "./germanCitiesCategories.csv",
+      (row) => ({
+          city: row.city,
+          notReligious: +row.notReligious,
+          ownedHomes: +row.ownedHomes,
+          selfEmployed: +row.selfEmployed,
+          populationChange: +row.populationChange,
+          populationDensity: +row.populationDensity
+      }), 
+      (error, data) => {
+        if (error) {
+          console.log("error loading data file");
+        }
+
+        const highlight = this.props.highlight || "Chemnitz";
+        const matchCity = this.getMatchDatumByCity(
+            data, this.props.highlight);
+
+        this.setState({
+          data: data,
+          activeCity: highlight,
+          matchCity: matchCity
+        });
       }
-
-      const highlight = this.props.highlight || "Chemnitz";
-      const matchCity = this.getMatchDatumByCity(
-          data, this.props.highlight);
-
-      this.setState({
-        data: data,
-        activeCity: highlight,
-        matchCity: matchCity
-      });
-    });
+    );
   }
 
   getMatchDatumByCity(data, city) {
@@ -46,7 +57,6 @@ class App extends React.Component {
       1
     )).matchCity;
   }
-
 
   setActiveByCity(city) {
     const matchCity = this.getMatchDatumByCity(
