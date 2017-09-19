@@ -13,12 +13,14 @@ storiesOf('Strip plot', module)
   .add('All plots', () => (
     <App
       width={800}
-      plotHeight={120}
+      plotHeight={110}
       margin={{
-        left: 30,
-        top: 30,
-        right: 30,
-        bottom: 40,
+        left: 50,
+        top: 50,
+        right: 50,
+        bottom: 50,
+        plotTop: 60,
+        plotBottom: 0,
       }}
       dataPath="./germanCitiesCategories.csv"
       categories={[

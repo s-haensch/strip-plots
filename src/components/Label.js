@@ -36,14 +36,14 @@ class Label extends React.Component {
       >
         <rect
           x={isLeft ? (-this.state.textWidth) - 2 : -2}
-          y={margin.top + 22}
+          y={margin.plotTop + 22}
           width={this.state.textWidth + 6}
           height={16}
           fill="#E3C44D"
           stroke="none"
         />
         <text
-          y={margin.top + 20}
+          y={margin.plotTop + 20}
           style={{
             fontFamily: "Calibri, Verdana, sans-serif",
             fontWeight: "bold",
@@ -57,7 +57,7 @@ class Label extends React.Component {
         <text
           ref="number"
           x={0}
-          y={margin.top + 10}
+          y={margin.plotTop + 10}
           dy="1.8em"
           style={{
             fontFamily: "Calibri, Verdana, sans-serif",

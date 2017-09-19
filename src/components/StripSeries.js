@@ -36,14 +36,14 @@ function stripLine(props, datum, index) {
           }
         }
         x1={scale(datum[dataKey])}
-        y1={plotHeight - margin.bottom - 4}
+        y1={plotHeight - margin.plotBottom - 4}
         x2={scale(datum[dataKey])}
-        y2={plotHeight - margin.bottom - (
+        y2={plotHeight - margin.plotBottom - (
           (datum.city === activeCity ||
             datum.city === matchCity) ? 38 : 24)} />
       <rect
         x={scale(datum[dataKey]) - 3}
-        y={plotHeight - margin.bottom - 28}
+        y={plotHeight - margin.plotBottom - 28}
         width={5}
         height={24}
         onMouseOver={() => {
